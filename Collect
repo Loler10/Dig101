@@ -1,0 +1,16 @@
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local garden = workspace:WaitForChild(player.Name .. "_Garden")
+local collectEvent = game.ReplicatedStorage:WaitForChild("HarvestCrop")
+
+while true do
+    for _, crop in pairs(garden:GetChildren()) do
+        if crop:IsA("Part") and crop:FindFirstChild("ReadyToHarvest") then
+            char:MoveTo(crop.Position + Vector3.new(0, 3, 0))
+            wait(0.5)
+            collectEvent:FireServer(crop)
+            wait(2)
+        end
+    end
+    wait(1)
+end
